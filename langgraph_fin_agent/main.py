@@ -34,7 +34,7 @@ class ConversationState(TypedDict):
     
     
 # Tracing setup
-from arize.otel import BatchSpanProcessor, register
+from phoenix.otel import BatchSpanProcessor, register
 from opentelemetry.context import Context
 from opentelemetry.sdk.trace import ReadableSpan, Span
 
@@ -81,16 +81,15 @@ class FilteringSpanProcessor(BatchSpanProcessor):
         super().on_end(span)
 
 custom_span_processor = FilteringSpanProcessor(
-    space_id=os.getenv("ARIZE_SPACE_ID"),
-    api_key=os.getenv("ARIZE_API_KEY"),
+    endpoint=os.getenv("PHOENIX_ENDPOINT"),
+    protocol="http/protobuf",
     span_fields = ["input.value", "output.value"],
     output_mask_list = ["messages", "result", "final_df", "final_html", "interpretation"]
     )
 
 tracer_provider = register(
-    space_id=os.getenv("ARIZE_SPACE_ID"),
-    api_key=os.getenv("ARIZE_API_KEY"),
     project_name=os.getenv("ARIZE_PROJECT_NAME"),
+    endpoint=os.getenv("PHOENIX_ENDPOINT"),
 )
 
 tracer_provider.add_span_processor(custom_span_processor)

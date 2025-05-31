@@ -15,6 +15,8 @@ beautifulsoup4 = "^4.13.3"
 openinference-instrumentation-langchain = "^0.1.35"
 arize-otel = "^0.8.1"
 openinference-instrumentation-openai = "^0.1.29"
+arize-phoenix = "^10.5.0"
+arize-phoenix-otel = "^0.10.1"
 
 
 [build-system]
